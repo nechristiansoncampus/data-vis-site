@@ -1,4 +1,3 @@
-from modal_fields import get_fields
 from flask_discord_interactions import (
     Message,
     ActionRow,
@@ -9,7 +8,7 @@ from flask_discord_interactions import (
     Autocomplete,
 )
 from autocomplete import autocomplete_handler
-
+from modal_fields import get_fields
 from flask_discord_interactions import DiscordInteractionsBlueprint
 
 bp = DiscordInteractionsBlueprint()

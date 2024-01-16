@@ -1,7 +1,6 @@
 import os
 from flask import Flask
 from flask_discord_interactions import DiscordInteractions
-import appointments as appointments
 from flask_discord_interactions import (
     DiscordInteractions,
 )
