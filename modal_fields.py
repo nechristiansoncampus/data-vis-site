@@ -5,28 +5,44 @@ from flask_discord_interactions import (
 
 from datetime import date
 
-def get_fields(fulltimer):
+def get_fields(fulltimer, student):
     fields = [
-                ActionRow(
-            [
-                TextInput(
-                    "user_input_time",
-                    "Enter the Event Name",
-                    value="Bible Study"
-                )
-            ]
-        ),
-
                 ActionRow(
             [
                 TextInput(
                     "user_input_fter",
                     "Enter the Full Timer",
-                    value=f"You selected **{fulltimer}**!"
+                    value=f"{fulltimer}"
                 )
             ]
         ),
-
+                ActionRow(
+            [
+                TextInput(
+                    "user_input_student",
+                    "Enter the Student",
+                    value=f"{student}"
+                )
+            ]
+        ),
+                ActionRow(
+            [
+                TextInput(
+                    "user_input_other_fter",
+                    "Other Fulltimer/Trainee (optional)",
+                    required=False
+                )
+            ]
+        ),
+                ActionRow(
+            [
+                TextInput(
+                    "user_input_other_student",
+                    "Enter additional students (optional)",
+                    required=False
+                )
+            ]
+        ),
                 ActionRow(
             [
                 TextInput(
@@ -34,16 +50,6 @@ def get_fields(fulltimer):
                     "Enter the Date",
                     placeholder=str(date.today()),
                     value=str(date.today())
-                )
-            ]
-        ),
-
-          ActionRow(
-            [
-                TextInput(
-                    "user_input_name",
-                    "Enter New Attendee *only if first mtg*",
-                    required=False
                 )
             ]
         )
