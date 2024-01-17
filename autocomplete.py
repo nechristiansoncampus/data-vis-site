@@ -1,9 +1,10 @@
-# from pymongo.mongo_client import MongoClient
-# from pymongo.server_api import ServerApi
+import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
-# uri = "SECRET URI"
+uri = os.environ["MONGO_URI"]
 
-# client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(uri, server_api=ServerApi('1'))
 
 fulltimers = ["Ben", "David", "Adrian"]
 students = {
@@ -13,20 +14,19 @@ students = {
 }
 
 def autocomplete_fetch():
-    pass
-    # try:
-    #     client.admin.command('ping')
-    #     print("Pinged your deployment. You successfully connected to MongoDB!")
-    # except Exception as e:
-    #     print(e)
-    # fters = []
-    # db = client.people
-    # col = db.fulltimers
-    # print ("\nReturn every document:")
-    # for doc in col.find():
-    #     fters.append(doc["name"])
-    # global fulltimers
-    # fulltimers = fters
+    try:
+        client.admin.command('ping')
+        print("Pinged your deployment. You successfully connected to MongoDB!")
+    except Exception as e:
+        print(e)
+    fters = []
+    db = client["mit-stats"]
+    col = db.appointments
+    print ("\nReturn every document:")
+    for doc in col.find():
+        fters.append(doc["fulltimer"])
+    global fulltimers
+    fulltimers = fters
 
 
 def autocomplete_handler(ctx, fulltimer=None, student=None):
