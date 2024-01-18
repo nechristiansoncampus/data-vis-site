@@ -1,10 +1,11 @@
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from api import get_fulltimers
 
 uri = os.environ["MONGO_URI"]
 
-client = MongoClient(uri, server_api=ServerApi('1'))
+client = MongoClient(uri, server_api=ServerApi("1"))
 
 fulltimers = ["Ben", "David", "Adrian"]
 students = {
@@ -13,23 +14,20 @@ students = {
     "Adrian": ["Zachia", "Remi", "Brenda"],
 }
 
+
 def autocomplete_fetch():
-    try:
-        client.admin.command('ping')
-        print("Pinged your deployment. You successfully connected to MongoDB!")
-    except Exception as e:
-        print(e)
-    fters = []
-    db = client["mit-stats"]
-    col = db.appointments
-    print ("\nReturn every document:")
-    for doc in col.find():
-        fters.append(doc["fulltimer"])
+    """Fetch MongoDB for autocomplete options related to student and fulltimer selection"""
     global fulltimers
-    fulltimers = fters
+    fulltimers = get_fulltimers()
 
 
 def autocomplete_handler(ctx, fulltimer=None, student=None):
+    """filtering of students based on fulltimer selected
+
+    once a fulltimer is chosen, this function autocompletes the student field
+    with only students who are associated with that fulltimer.
+    Useful for sister / brothers mainly to filter out the excess students
+    """
     if fulltimer.focused:
         return [c for c in fulltimers if c.lower().startswith(fulltimer.value.lower())]
     elif student.focused:

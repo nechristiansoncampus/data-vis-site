@@ -1,25 +1,45 @@
 from flask_discord_interactions import (
     Message,
-    ActionRow,
     Embed,
-    SelectMenu,
-    SelectMenuOption,
     Modal,
     Autocomplete,
+    DiscordInteractionsBlueprint,
 )
 from autocomplete import autocomplete_handler
 from modal_fields import get_fields
-from flask_discord_interactions import DiscordInteractionsBlueprint
+from api import save_appointment
 
 bp = DiscordInteractionsBlueprint()
 
 bp.add_autocomplete_handler(autocomplete_handler, "appointment")
 
+
+def format_output(data):
+    """Format the output for visual consumption within the context of discord upon submission"""
+    output = ""
+    for name, values in data.items():
+        if values != "":
+            output = output + f"{name}:\n  {values}" + "\n\n"
+    return output
+
+
 @bp.custom_handler("appointment")
 def modal_callback(ctx):
-    message_embed = Embed(title="Submitted", description=("Backend ctx data is" + str(ctx.components)
-    ))
-    return Message(embed=message_embed) 
+    """Handle user submitted data through the appointment modal"""
+
+    data = {}
+    for component in ctx.components:
+        field_prop = component.components[0]
+        data[field_prop.custom_id] = field_prop.value
+
+    message_embed = Embed(
+        title="Appointment Submitted", description=(format_output(data))
+    )
+
+    # Save DATA TO DB
+    save_appointment(data)
+
+    return Message(embed=message_embed)
 
     """
     TODO: REMOVE THE COMMENTED CODE ONCE TAKEN OUT FOR EVENTS
@@ -30,10 +50,13 @@ def modal_callback(ctx):
     """
     # return make_appointment()
 
+
 @bp.command()
 def appointment(ctx, fulltimer: Autocomplete(str), student: Autocomplete(str)):
+    """Form to submit an appointment with students"""
     fields = get_fields(fulltimer, student)
     return Modal("appointment", "Appointment Info", fields)
+
 
 # def make_appointment(**kwargs):
 #     message_embed = Embed(
@@ -74,4 +97,3 @@ def appointment(ctx, fulltimer: Autocomplete(str), student: Autocomplete(str)):
 #     ),
 #     )
 #     return Message(embed=message_embed)
-

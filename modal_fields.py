@@ -1,57 +1,42 @@
-from flask_discord_interactions import (
-    ActionRow,
-    TextInput
-)
-
 from datetime import date
+from flask_discord_interactions import ActionRow, TextInput
+
 
 def get_fields(fulltimer, student):
+    """Populate and return fields needed for form(modal)"""
     fields = [
-                ActionRow(
+        ActionRow(
             [
                 TextInput(
-                    "user_input_fter",
-                    "Enter the Full Timer",
-                    value=f"{fulltimer}"
+                    "Fulltimers",
+                    "Fulltimers (comma seperated)",
+                    value=f"{fulltimer}",
                 )
             ]
         ),
-                ActionRow(
+        ActionRow(
             [
                 TextInput(
-                    "user_input_student",
-                    "Enter the Student",
-                    value=f"{student}"
+                    "Students",
+                    "Students (comma seperated)",
+                    value=f"{student}",
                 )
             ]
         ),
-                ActionRow(
+        ActionRow(
             [
                 TextInput(
-                    "user_input_other_fter",
-                    "Other Fulltimer/Trainee (optional)",
-                    required=False
-                )
-            ]
-        ),
-                ActionRow(
-            [
-                TextInput(
-                    "user_input_other_student",
-                    "Enter additional students (optional)",
-                    required=False
-                )
-            ]
-        ),
-                ActionRow(
-            [
-                TextInput(
-                    "user_input_new",
+                    "Date",
                     "Enter the Date",
-                    placeholder=str(date.today()),
-                    value=str(date.today())
+                    placeholder=str(date.today().strftime("%m/%d/%Y")),
+                    value=str(date.today().strftime("%m/%d/%Y")),
                 )
             ]
-        )
+        ),
+        ActionRow(
+            [
+                TextInput("Notes", "Notes"),
+            ],
+        ),
     ]
     return fields
