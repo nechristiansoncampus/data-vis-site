@@ -2,7 +2,7 @@ from datetime import date
 from flask_discord_interactions import ActionRow, TextInput
 
 
-def get_fields(fulltimer, student):
+def get_fields(student):
     """Populate and return fields needed for form(modal)"""
     fields = [
         ActionRow(
@@ -10,7 +10,6 @@ def get_fields(fulltimer, student):
                 TextInput(
                     "Fulltimers",
                     "Fulltimers (comma seperated)",
-                    value=f"{fulltimer}",
                 )
             ]
         ),
@@ -35,7 +34,7 @@ def get_fields(fulltimer, student):
         ),
         ActionRow(
             [
-                TextInput("Notes", "Notes"),
+                TextInput("Notes", "Notes", required=False),
             ],
         ),
     ]

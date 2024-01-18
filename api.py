@@ -1,6 +1,7 @@
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
+from config import activeDB
 
 uri = os.environ["MONGO_URI"]
 
@@ -18,16 +19,16 @@ def test_db_conn():
 
 def save_appointment(data):
     """Saves the data dictionary into the db"""
-    db = client["mit-stats"]
+    db = client[activeDB]
     col = db.appointments
     col.insert_one(data)
 
 
-def get_fulltimers():
+def get_students():
     """Fetch a list of all the possible fulltimers/trainees"""
-    fters = []
-    db = client["mit-stats"]
-    col = db.fulltimers
+    students = []
+    db = client[activeDB]
+    col = db.students
     for doc in col.find():
-        fters.append(doc["name"])
-    return fters
+        students.append(doc["name"])
+    return students
