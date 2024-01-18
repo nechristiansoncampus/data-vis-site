@@ -1,20 +1,29 @@
 ## Data Model 
 
 **students**
-- firstname (String)
-- lastname (String: optional)
-- classOf (String: optional)
+|field | type |
+|----------|-------|
+| firstname | String
+| lastname | String (optional)
+| classOf | String (optional)
 
 **appointments**
-- title (String)
-- date (String)
-- students ([String])
-- fulltimers ([String])
-- notes (String: optional)
+
+|field | type |
+|----------|-------|
+| title | String |
+| date | String | 
+| students | Array (String) |
+| fulltimers | Array (String) |
+| notes | String (optional) |
 
 **events**
-- title (String)
-- date (String)
-- students ([String])
-- fulltimers ([String])
 
+|field | type |
+|----------|-------|
+| title | String |
+| date | String |
+| students | Array (String) |
+| fulltimers | Array (String) |
+
+**gospel**
