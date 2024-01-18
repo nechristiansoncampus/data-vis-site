@@ -35,12 +35,6 @@ def event():
     return "event attendance endpoint"
 
 
-@discord.command()
-def ping(ctx):
-    "Respond with a friendly 'pong'!"
-    return "Pong!"
-
-
 discord.set_route("/interactions")
 discord.update_commands(guild_id=os.environ["TESTING_GUILD"])
 

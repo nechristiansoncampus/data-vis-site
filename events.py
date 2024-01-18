@@ -26,7 +26,7 @@ def event(ctx):
 
 
 @bp.custom_handler("event")
-def modal_callback(ctx):
+def event_modal_callback(ctx):
     """Handle user submitted data through the event modal"""
     data = {}
     for component in ctx.components:
@@ -38,6 +38,7 @@ def modal_callback(ctx):
 
 
 def student_select_menu(data, **kwargs):
+    """Select menu to select from exisiting students for event attendees"""
     message_embed = Embed(
         title="Select Students Attending!",
         description=("Students attending so far: \n"),
@@ -57,6 +58,7 @@ def student_select_menu(data, **kwargs):
 
 @bp.custom_handler()
 def handle_selected(ctx, **kwargs):
+    """Process data after attendees have been selected from existing students"""
     global event_data
     event_data["attendees"] = ctx.values
     attendee_count = len(ctx.values)
@@ -68,7 +70,7 @@ def handle_selected(ctx, **kwargs):
                 components=[
                     Button(
                         style=ButtonStyles.PRIMARY,
-                        custom_id=handle_click,
+                        custom_id=handle_add_click,
                         label="Add New Students!",
                     )
                 ]
@@ -78,13 +80,13 @@ def handle_selected(ctx, **kwargs):
 
 
 @bp.custom_handler()
-def handle_click(ctx):
+def handle_add_click(ctx):
     fields = add_student_fields()
     return Modal("add", "Add Student", fields)
 
 
 @bp.custom_handler("add")
-def print_attendees(ctx):
+def response_msg(ctx):
     new_students = ctx.get_component("add_students").value.split(",")
     global event_data
     event_data["attendees"] = event_data.get("attendees", []) + new_students
