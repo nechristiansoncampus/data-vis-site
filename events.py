@@ -10,6 +10,7 @@ from flask_discord_interactions import (
     ButtonStyles,
 )
 from event_fields import get_fields, add_student_fields
+from api import save_student, get_students
 
 bp = DiscordInteractionsBlueprint()
 test_students = ["Isaac", "Coven", "Cassia", "Ethan", "Luke", "Garett"]
@@ -21,6 +22,8 @@ def event(ctx):
     """Form to submit an event with attendance"""
     global event_data
     event_data = {}
+    global test_students
+    test_students = get_students()
     fields = get_fields()
     return Modal("event", "Event Info", fields)
 
@@ -38,9 +41,10 @@ def event_modal_callback(ctx):
 
 
 def student_select_menu(data, **kwargs):
+    global event_data
     """Select menu to select from exisiting students for event attendees"""
     message_embed = Embed(
-        title="Select Students Attending!",
+        title=f"Select Students Attending the {event_data['Name']}!",
         description=("Students attending so far: \n"),
     )
     options = [SelectMenuOption(label=name, value=name) for name in test_students]
@@ -52,7 +56,9 @@ def student_select_menu(data, **kwargs):
     )
 
     return Message(
-        embed=message_embed, components=[ActionRow(components=[menu])], **kwargs
+        embed=message_embed,
+        components=[ActionRow(components=[menu])],
+        **kwargs,
     )
 
 
@@ -61,22 +67,8 @@ def handle_selected(ctx, **kwargs):
     """Process data after attendees have been selected from existing students"""
     global event_data
     event_data["attendees"] = ctx.values
-    attendee_count = len(ctx.values)
 
-    return Message(
-        content=f"{attendee_count} students attending the {event_data['Name']}!",
-        components=[
-            ActionRow(
-                components=[
-                    Button(
-                        style=ButtonStyles.PRIMARY,
-                        custom_id=handle_add_click,
-                        label="Add New Students!",
-                    )
-                ]
-            )
-        ],
-    )
+    return students_attending_msg(event_data["Name"], event_data["attendees"])
 
 
 @bp.custom_handler()
@@ -87,12 +79,37 @@ def handle_add_click(ctx):
 
 @bp.custom_handler("add")
 def response_msg(ctx):
-    new_students = ctx.get_component("add_students").value.split(",")
+    print("FIRES EACH TIME?!")
     global event_data
-    event_data["attendees"] = event_data.get("attendees", []) + new_students
+    new_student_firstname = ctx.get_component("firstname").value
+    new_student_lastname = ctx.get_component("lastname").value
+    fullname = new_student_firstname + " " + new_student_lastname
+    save_student(new_student_firstname, new_student_lastname)
+    event_data["attendees"] = event_data.get("attendees", []) + [fullname]
+    attendees = event_data["attendees"]
+    return students_attending_msg(event_data["Name"], attendees, replace_last_msg=True)
+
+
+def students_attending_msg(event_name, attendees, replace_last_msg=False):
+    attendee_count = len(attendees)
+    attendee_string = ", ".join(attendees)
 
     message_embed = Embed(
-        title="Students attending the {event_data['Name']}",
-        description=(f"{event_data['attendees']}\n"),
+        title=f"{attendee_count} students attending the {event_name}:",
+        description=(" \n\n" + attendee_string),
     )
-    return Message(embed=message_embed)
+    return Message(
+        embed=message_embed,
+        components=[
+            ActionRow(
+                components=[
+                    Button(
+                        style=ButtonStyles.PRIMARY,
+                        custom_id=handle_add_click,
+                        label="Add New Student!",
+                    )
+                ]
+            )
+        ],
+        update=replace_last_msg,
+    )

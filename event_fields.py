@@ -34,8 +34,13 @@ def add_student_fields():
     fields = [
         ActionRow(
             [
-                TextInput("add_students", "Add Students (Comma Seperated)"),
+                TextInput("firstname", "First Name"),
             ],
-        )
+        ),
+        ActionRow(
+            [
+                TextInput("lastname", "Last Name"),
+            ],
+        ),
     ]
     return fields
