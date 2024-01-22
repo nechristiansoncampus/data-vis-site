@@ -3,9 +3,9 @@
 **students**
 |field | type |
 |----------|-------|
-| firstname | String
-| lastname | String
-| classOf | String (optional)
+| firstname | String |
+| lastname | String |
+| classOf | String (optional) |
 
 **appointments**
 
@@ -14,7 +14,7 @@
 | title | String |
 | date | String | 
 | students | Array (String) |
-| fulltimers | Array (String) (optional) |
+| fulltimers | Array (String) |
 | notes | String (optional) |
 
 **events**
