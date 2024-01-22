@@ -1,7 +1,7 @@
 ## Data Model 
 
 **students**
-|field | type |
+| field | type |
 |----------|-------|
 | firstname | String |
 | lastname | String |
@@ -9,7 +9,7 @@
 
 **appointments**
 
-|field | type |
+| field | type |
 |----------|-------|
 | title | String |
 | date | String | 
@@ -19,7 +19,7 @@
 
 **events**
 
-|field | type |
+| field | type |
 |----------|-------|
 | title | String |
 | date | String |
@@ -28,3 +28,10 @@
 | notes | String (optional) |
 
 **gospel**
+
+| field | type |
+|----------|-------|
+| date | String |
+| tractspassed | Int |
+| peoplecontacted | Int |
+| notes | String (optional) |
