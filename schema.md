@@ -4,7 +4,7 @@
 |field | type |
 |----------|-------|
 | firstname | String
-| lastname | String (optional)
+| lastname | String
 | classOf | String (optional)
 
 **appointments**
@@ -14,7 +14,7 @@
 | title | String |
 | date | String | 
 | students | Array (String) |
-| fulltimers | Array (String) |
+| fulltimers | Array (String) (optional) |
 | notes | String (optional) |
 
 **events**
@@ -24,6 +24,7 @@
 | title | String |
 | date | String |
 | students | Array (String) |
-| fulltimers | Array (String) |
+| fulltimers | Array (String) (optional) |
+| notes | String (optional) |
 
 **gospel**
