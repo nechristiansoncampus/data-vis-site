@@ -2,8 +2,17 @@ from datetime import date
 from flask_discord_interactions import ActionRow, TextInput
 
 
-def get_fields(student):
-    """Populate and return fields needed for form(modal)"""
+def get_fields(student, *args):
+    """
+    Populate and return fields needed for form(modal)
+    
+    Args may contain students in the case that an appointment was with multiple students
+    """
+    student_fill = student
+    for stud in args:
+        if stud:
+            student_fill = student_fill + ", " + stud
+
     fields = [
         ActionRow(
             [
@@ -18,7 +27,7 @@ def get_fields(student):
                 TextInput(
                     "Students",
                     "Students (comma seperated)",
-                    value=f"{student}",
+                    value=f"{student_fill}",
                 )
             ]
         ),

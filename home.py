@@ -6,7 +6,6 @@ from flask_discord_interactions import (
 )
 from appointments import bp as appointment_bp
 from events import bp as event_bp
-from autocomplete import autocomplete_fetch
 
 app = Flask(__name__)
 discord = DiscordInteractions(app)
@@ -16,9 +15,6 @@ app.config["DISCORD_PUBLIC_KEY"] = os.environ["DISCORD_PUBLIC_KEY"]
 app.config["DISCORD_CLIENT_SECRET"] = os.environ["DISCORD_CLIENT_SECRET"]
 discord.register_blueprint(appointment_bp)
 discord.register_blueprint(event_bp)
-
-autocomplete_fetch()
-
 
 @app.route("/")
 def home():

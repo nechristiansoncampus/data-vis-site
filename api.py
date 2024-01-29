@@ -24,15 +24,17 @@ def save_appointment(data):
     col.insert_one(data)
 
 
-def save_student(firstname, lastname="", classOf=""):
+def save_student(firstname, lastname, classOf=""):
     data = {"firstname": firstname, "lastname": lastname, "classOf": classOf}
     db = client[activeDB]
     col = db.students
+    if col.find_one({"firstname": firstname, "lastname": lastname}):
+        return
     col.insert_one(data)
 
 
 def get_students():
-    """Fetch a list of all the possible fulltimers/trainees"""
+    """Fetch a list of all the possible students"""
     students = []
     db = client[activeDB]
     col = db.students
