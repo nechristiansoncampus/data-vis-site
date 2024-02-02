@@ -32,6 +32,8 @@ def event():
 
 
 discord.set_route("/interactions")
+
+# Only uncomment this if you change the keywords on the commands
 discord.update_commands(guild_id=os.environ["TESTING_GUILD"])
 
 if __name__ == "__main__":

@@ -29,7 +29,7 @@ def get_fields():
     return fields
 
 
-def add_student_fields():
+def add_student_fields(event_id):
     """Populate and return fields needed for form(modal)"""
     fields = [
         ActionRow(
@@ -40,6 +40,11 @@ def add_student_fields():
         ActionRow(
             [
                 TextInput("lastname", "Last Name"),
+            ],
+        ),
+        ActionRow(
+            [
+                TextInput("event_id", "Event ID", value=f"{event_id}"),
             ],
         ),
     ]
