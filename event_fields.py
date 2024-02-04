@@ -7,13 +7,13 @@ def get_fields():
     fields = [
         ActionRow(
             [
-                TextInput("Name", "Event Name"),
+                TextInput("name", "Event Name"),
             ],
         ),
         ActionRow(
             [
                 TextInput(
-                    "Date",
+                    "date",
                     "Enter the Date",
                     placeholder=str(date.today().strftime("%m/%d/%Y")),
                     value=str(date.today().strftime("%m/%d/%Y")),
@@ -22,7 +22,7 @@ def get_fields():
         ),
         ActionRow(
             [
-                TextInput("Notes", "Notes", required=False),
+                TextInput("notes", "Notes", placeholder="Location, topic, other info", required=False),
             ],
         ),
     ]

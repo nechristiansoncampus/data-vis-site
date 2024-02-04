@@ -17,7 +17,7 @@ def get_fields(student, *args):
         ActionRow(
             [
                 TextInput(
-                    "Fulltimers",
+                    "fulltimers",
                     "Fulltimers (comma seperated)",
                 )
             ]
@@ -25,7 +25,7 @@ def get_fields(student, *args):
         ActionRow(
             [
                 TextInput(
-                    "Students",
+                    "students",
                     "Students (comma seperated)",
                     value=f"{student_fill}",
                 )
@@ -34,7 +34,7 @@ def get_fields(student, *args):
         ActionRow(
             [
                 TextInput(
-                    "Date",
+                    "date",
                     "Enter the Date",
                     placeholder=str(date.today().strftime("%m/%d/%Y")),
                     value=str(date.today().strftime("%m/%d/%Y")),
@@ -43,7 +43,7 @@ def get_fields(student, *args):
         ),
         ActionRow(
             [
-                TextInput("Notes", "Notes", required=False),
+                TextInput("notes", "Notes", required=False),
             ],
         ),
     ]

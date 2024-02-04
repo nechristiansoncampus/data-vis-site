@@ -8,7 +8,6 @@ from flask_discord_interactions import (
     ActionRow,
     Button,
     ButtonStyles,
-    TextInput,
 )
 from event_fields import get_fields, add_student_fields
 from api import save_student, get_students, save_event, add_one_attendee_to_event, get_event
@@ -45,8 +44,9 @@ def student_select_menu(data, **kwargs):
     global event_data
     """Select menu to select from exisiting students for event attendees"""
     message_embed = Embed(
-        title=f"Select students attending {event_data['Name']}!",
+        title=f"Select students attending {event_data['name']}",
         description=("Students attending so far: \n"),
+        color=color_coding(event_data['name']),
     )
     students = get_students() + [ADD_NEW_STUDENT]
     options = [SelectMenuOption(label=name, value=name) for name in students]
@@ -74,16 +74,17 @@ def handle_selected(ctx, **kwargs):
     global event_id
     event_id = None
     event_id = save_event(event_data)
-    return students_attending_msg(event_data["Name"], event_data["attendees"])
+    return students_attending_msg(event_data)
 
 
-def students_attending_msg(event_name, attendees, replace_last_msg=False):
-    attendee_count = len(attendees)
-    attendee_string = ", ".join(attendees)
+def students_attending_msg(event_data, replace_last_msg=False):
+    attendee_count = len(event_data["attendees"])
+    attendee_string = ", ".join(event_data["attendees"])
 
     message_embed = Embed(
-        title=f"{attendee_count} students attending {event_name}:",
-        description=(" \n\n" + attendee_string),
+        title=f"{event_data['name']} on {event_data['date']}",
+        description=("\n" + event_data["notes"] + "\n\n" + "**" + str(attendee_count) + "**" + " students attended:" + "\n" + attendee_string),
+        color=color_coding(event_data['name']),
     )
     return Message(
         embed=message_embed,
@@ -115,5 +116,29 @@ def response_msg(ctx):
     event_id = ctx.get_component("event_id").value
     fullname = new_student_firstname + " " + new_student_lastname
     save_student(new_student_firstname, new_student_lastname)
-    event = add_one_attendee_to_event(event_id, fullname)
-    return students_attending_msg(event_data["Name"], event["attendees"], replace_last_msg=True)
+    db_event_data = add_one_attendee_to_event(event_id, fullname)
+    return students_attending_msg(db_event_data, replace_last_msg=True)
+
+
+def color_coding(event_name):
+    """
+    function that color codes events based on key words in event name
+    https://gist.github.com/thomasbnt/b6f455e2c7d743b796917fa3c205f812
+
+    event_name - (str) name of event
+    """
+    # this should catch Bible study
+    if "bible" in event_name.lower():
+        return 15844367 # gold
+    # this should catch home meeting
+    elif "home" in event_name.lower():
+        return 2067276 # green
+    # this should catch church meetings (aka LD and prayer)
+    elif "meeting" in event_name.lower():
+        return 1146986 # dark aqua
+    # this should catch IPMM
+    elif "ipmm" in event_name.lower() or "intercollegiate" in event_name.lower():
+        return 11342935 # dark vivid pink
+    # all others
+    return 7419530 # dark purple
+    

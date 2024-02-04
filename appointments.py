@@ -2,7 +2,6 @@ from flask_discord_interactions import (
     Message,
     Embed,
     Modal,
-    Autocomplete,
     DiscordInteractionsBlueprint,
     Option,
 )
@@ -24,7 +23,6 @@ bp.add_autocomplete_handler(autocomplete_handler, "appt")
 )
 def appt(ctx, student: str, student2: str="", student3: str=""):
     """Form to submit an appointment with students"""
-    print(student, student2, student3)
     fields = get_fields(student, student2, student3)
     return Modal("appt", "Appointment Info", fields)
 
@@ -36,7 +34,7 @@ def modal_callback(ctx):
     data = {}
     for component in ctx.components:
         field_prop = component.components[0]
-        data[field_prop.custom_id.lower()] = field_prop.value
+        data[field_prop.custom_id] = field_prop.value
 
     students = data["students"]
     if ',' in students:
@@ -50,21 +48,13 @@ def modal_callback(ctx):
         save_student(firstname, lastname)
 
     message_embed = Embed(
-        title="Appointment Submitted", description=(format_output(data))
+        title="**Appt** with **" + data["students"] + "**",
+        description=(data["date"] + "\n" + data["fulltimers"] + "\n\n" + data["notes"] ),
+        color=3447003, # blue, google Discord color codes if you want to change
     )
 
     data["students"] = student_list
     # Save DATA TO DB
     save_appointment(data)
 
-
     return Message(embed=message_embed)
-
-
-def format_output(data):
-    """Format the output for visual consumption within the context of discord upon submission"""
-    output = ""
-    for name, values in data.items():
-        if values != "":
-            output = output + f"{name}:\n  {values}" + "\n\n"
-    return output
