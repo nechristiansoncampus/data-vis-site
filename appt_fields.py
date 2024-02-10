@@ -18,7 +18,7 @@ def get_fields(student, *args):
             [
                 TextInput(
                     "fulltimers",
-                    "Fulltimers (comma seperated)",
+                    "Fulltimers (comma separated)",
                 )
             ]
         ),
@@ -26,7 +26,7 @@ def get_fields(student, *args):
             [
                 TextInput(
                     "students",
-                    "Students (comma seperated)",
+                    "Students (comma separated)",
                     value=f"{student_fill}",
                 )
             ]

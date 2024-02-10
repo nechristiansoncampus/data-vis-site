@@ -74,3 +74,9 @@ def get_students():
     for doc in col.find():
         students.append(doc["firstname"] + " " + doc["lastname"])
     return students
+
+
+def save_gospel(data):
+    db = client[activeDB]
+    col = db.gospel
+    col.insert_one(data)
