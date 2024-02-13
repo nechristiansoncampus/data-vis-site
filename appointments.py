@@ -18,12 +18,13 @@ bp.add_autocomplete_handler(autocomplete_handler, "appt")
     options=[
         Option(name="student", type=str, required=True, description="required", autocomplete=True),
         Option(name="student2", type=str, required=False, description="optional", autocomplete=True),
-        Option(name="student3", type=str, required=False, description="optional", autocomplete=True)
+        Option(name="student3", type=str, required=False, description="optional", autocomplete=True),
+        Option(name="student4", type=str, required=False, description="optional", autocomplete=True)
     ]
 )
-def appt(ctx, student: str, student2: str="", student3: str=""):
+def appt(ctx, student: str, student2: str="", student3: str="", student4: str=""):
     """Form to submit an appointment with students"""
-    fields = get_fields(student, student2, student3)
+    fields = get_fields(student, student2, student3, student4)
     return Modal("appt", "Appointment Info", fields)
 
 
