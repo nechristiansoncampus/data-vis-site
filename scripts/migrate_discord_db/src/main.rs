@@ -30,7 +30,7 @@ async fn write_doc(record: MongoRecord) -> mongodb::error::Result<()> {
     });
 
     let client = Client::with_uri_str(mongodb_uri).await?;
-    let my_coll: Collection<MongoRecord> = client.database("stats-test").collection("appointments");
+    let my_coll: Collection<MongoRecord> = client.database("mit-stats").collection("appointments");
 
     let res = my_coll.insert_one(record, None).await?;
     println!("Inserted a document with _id: {}", res.inserted_id);
@@ -39,7 +39,6 @@ async fn write_doc(record: MongoRecord) -> mongodb::error::Result<()> {
 
 fn main() -> Result<(), csv::Error> {
     let mut reader = csv::Reader::from_path("student_updates_edited.csv")?;
-    let mut records: Vec<MongoRecord> = Vec::new();
     for record in reader.deserialize() {
         let record: Record = record?;
 
