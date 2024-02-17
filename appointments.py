@@ -52,6 +52,8 @@ def modal_callback(ctx):
     fulltimers = data['fulltimers']
     if ',' in fulltimers:
         fulltimers_list = fulltimers.split(', ')
+    else:
+        fulltimers_list = [fulltimers]
     data['fulltimers'] = fulltimers_list
 
     message_embed = Embed(
