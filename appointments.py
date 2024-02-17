@@ -48,6 +48,14 @@ def modal_callback(ctx):
         firstname, lastname = students.split(' ')
         save_student(firstname, lastname)
 
+    #Convert comma seperated string of fulltimers into list<str> for db 
+    fulltimers = data['fulltimers']
+    if ',' in fulltimers:
+        fulltimers_list = fulltimers.split(', ')
+    else:
+        fulltimers_list = [fulltimers]
+    data['fulltimers'] = fulltimers_list
+
     message_embed = Embed(
         title="**Appt** with **" + data["students"] + "**",
         description=(data["date"] + "\n" + data["fulltimers"] + "\n\n" + data["notes"] ),
