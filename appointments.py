@@ -58,7 +58,7 @@ def modal_callback(ctx):
 
     message_embed = Embed(
         title="**Appt** with **" + data["students"] + "**",
-        description=(data["date"] + "\n" + data["fulltimers"] + "\n\n" + data["notes"] ),
+        description=(data["date"] + "\n" + ', '.join(data["fulltimers"]) + "\n\n" + data["notes"] ),
         color=3447003, # blue, google Discord color codes if you want to change
     )
 
