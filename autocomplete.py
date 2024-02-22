@@ -11,7 +11,7 @@ def fetch_students(student):
     students = get_students()
     return [c for c in students if c.lower().startswith(student.value.lower())]
 
-def autocomplete_handler(ctx, student=None, student2=None, student3=None):
+def autocomplete_handler(ctx, student=None, student2=None, student3=None, student4=None):
     """
     Handle autocomplete for students. Used for /appt and /event to autocomplete student names
     that have already been inputted into the database.
@@ -23,5 +23,7 @@ def autocomplete_handler(ctx, student=None, student2=None, student3=None):
     elif student2.focused:
         return fetch_students(student2)
     elif student3.focused:
+        return fetch_students(student3)
+    elif student4.focused:
         return fetch_students(student3)
     
