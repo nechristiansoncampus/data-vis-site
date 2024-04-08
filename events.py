@@ -48,7 +48,7 @@ def student_select_menu(data, **kwargs):
         description=("Students attending so far: \n"),
         color=color_coding(event_data['name']),
     )
-    students = get_students() + [ADD_NEW_STUDENT]
+    students = get_students(limit=25) + [ADD_NEW_STUDENT]
     options = [SelectMenuOption(label=name, value=name) for name in students]
     menu = SelectMenu(
         placeholder="Select students attending event!",

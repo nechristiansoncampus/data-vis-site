@@ -66,12 +66,14 @@ def save_student(firstname, lastname, classOf=""):
     col.insert_one(data)
 
 
-def get_students():
+def get_students(limit=None):
     """Fetch a list of all the possible students"""
     students = []
     db = client[activeDB]
     col = db.students
     for doc in col.find():
+        if limit and len(students) > limit:
+            break
         students.append(doc["firstname"] + " " + doc["lastname"])
     return students
 
