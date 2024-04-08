@@ -9,7 +9,15 @@ client = MongoClient(uri, server_api=ServerApi("1"))
 
 def fetch_students(student):
     students = get_students()
-    return [c for c in students if c.lower().startswith(student.value.lower())]
+    # discord api limits select menus to 25 options
+    first25 = []
+    i = 0
+    while len(first25) <= 25:
+        s = students[i]
+        if s.lower().startswith(student.value.lower()):
+            first25.appened(s)
+        i += 1
+    return first25
 
 def autocomplete_handler(ctx, student=None, student2=None, student3=None, student4=None):
     """
