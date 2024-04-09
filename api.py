@@ -72,7 +72,7 @@ def get_students(limit=None):
     db = client[activeDB]
     col = db.students
     for doc in col.find():
-        if limit and len(students) > limit:
+        if limit and len(students) >= limit:
             break
         students.append(doc["firstname"] + " " + doc["lastname"])
     return students
